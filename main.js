@@ -4,8 +4,31 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+const likeContainer = document.querySelector('li');
+const allHearts = document.querySelectorAll('.like')
 
+for (const element of allHearts) {
+  element.addEventListener('click', like)
+}
 
+function like(e) {
+  if (e.target.innerText === EMPTY_HEART) {
+    mimicServerCall()
+    .then(() => {
+      e.target.innerText = FULL_HEART;
+      e.target.classList.toggle('activated-heart');
+    })
+    .catch(err => {
+      modal.classList.toggle('hidden');
+      message.innerText = err;
+      setTimeout(() => modal.classList.toggle('hidden'), 5000);
+    })
+  }
+  if (e.target.innerText === FULL_HEART) {
+    e.target.innerText = EMPTY_HEART;
+    e.target.classList.toggle('activated-heart');
+  }
+}
 
 //------------------------------------------------------------------------------
 // Don't change the code below: this function mocks the server response
